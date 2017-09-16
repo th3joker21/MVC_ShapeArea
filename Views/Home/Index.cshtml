@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+&nbsp;
+<!DOCTYPE html>
+&nbsp;
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Area Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        function shapeSelected() {
+            var shapeId = $('#shapeSelect').val();
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/home/LoadShape",
+                dataType: "html",
+                data: JSON.stringify({ "shapeId": shapeId }),
+                success: function (data) {
+                    $('#shapeData').html(data);
+                    $('#areaDisplay').html(""); //reset view
+
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function calculateArea() {
+                var shapeId = $('#shapeSelect').val();
+                var obj = {};
+                if (shapeId == 1 || shapeId == 4)
+                {
+                    obj.shapeID = shapeId;
+                    obj.Dimension1 = $('#dim1').val();
+                }
+                else
+                {
+                    obj.shapeID = shapeId;
+                    obj.Dimension1 = $('#dim1').val();
+                    obj.Dimension2 = $('#dim2').val();
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/home/AreaCalculation",
+                    dataType: "json",
+                    data: JSON.stringify({ 'values': obj }),
+                    success: function (data) {
+                        $('#areaDisplay').html(data);
+                    }
+                });
+            }
+
+    </script>
+</head>
+<body>
+    <div>
+        @model IEnumerable<CalculateArea.Models.Shape>
+        Shapes:
+        <select id="shapeSelect" onchange="shapeSelected()">
+            <option>-Select a Shape-</option>
+            @foreach (var shape in Model)
+            {
+                <option value="@shape.Id">@shape.Name</option>
+            }
+        </select>
+    </div>
+    <div id="shapeData">
+
+    </div>
+    <div id="areaDisplay">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿@model CalculateArea.Models.Shape
+
+    @if (Model.Id == 1 || Model.Id == 4)
+
+    {
+        <label for="dim1">@(Model.Dimension1): </label>
+        <input onkeyup="calculateArea()" onchange="calculateArea()" type="number" id="dim1">
+    }
+    else
+    {
+        <label id="label1" for="dim1">@(Model.Dimension1): </label>
+        <input onkeyup="calculateArea()" onchange="calculateArea()" type="number" id="dim1">
+        <label id="label2" for="dim2">@(Model.Dimension2): </label>
+        <input onkeyup="calculateArea()" onchange="calculateArea()" type="number" id="dim2">
+    }
+    
+
+   
